@@ -1,31 +1,29 @@
-import { Tabs } from 'expo-router';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Tabs } from "expo-router";
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#03d3b7',
+        tabBarActiveTintColor: "blue",
+        headerShown: false,
+        tabBarStyle: {
+          height: 80, // Aumentando a altura da barra inferior
+          paddingBottom: 10, // Ajustando o espaçamento inferior
+        },
+        tabBarIconStyle: {
+          height: 50, // Ajustando o tamanho do ícone para se ajustar à barra
+          width: 50, // Garantindo que o ícone tenha a largura adequada
+          marginTop: 5, // Ajustando a margem para evitar que o ícone seja cortado
+        },
       }}
     >
-      {/* Tela Home */}
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={24} />
-          ),
-        }}
-      />
-      
-      {/* Tela About */}
-      <Tabs.Screen
-        name="about"
-        options={{
-          title: 'About',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'information-circle-sharp' : 'information-circle-outline'} color={color} size={24} />
+          title: "Home",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={40} name="home" color={color} />
           ),
         }}
       />

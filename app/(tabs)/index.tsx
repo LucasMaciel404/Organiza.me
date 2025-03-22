@@ -1,25 +1,25 @@
-import { Text, View, StyleSheet } from "react-native";
-import { Link } from "expo-router";
+import { Buttom } from "@/src/components/Buttom";
+import { useThemeContext } from "@/src/ThemeContext";
+import { Text } from "react-native";
+import { View } from "react-native";
+import styled from "styled-components/native";
 
-export default function Index() {
+const Container = styled.View<{ theme: { colors: { background: string } } }>`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: ${(props) => props.theme.colors.background};
+`;
+
+export default function HomePage() {
+  const { theme, toggleTheme } = useThemeContext();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Edit app/index.tsx to edit this screen.</Text>
-      <Link href="/about" style={styles.text}>
-        Ajuda
-      </Link>
-    </View>
+    <Container theme={theme}>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>Relaxa amigo</Text>
+        <Buttom theme={theme} title="Trocar Tema" onPress={toggleTheme} />
+      </View>
+    </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#25292e",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  text: {
-    color: "#fff",
-  },
-});
