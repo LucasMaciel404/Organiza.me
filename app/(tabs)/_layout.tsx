@@ -1,32 +1,56 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
+import Foundation from "@expo/vector-icons/Foundation";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { useThemeContext } from "@/src/ThemeContext";
+import { StyleSheet } from "react-native";
 
-export default function TabLayout() {
+export default function Layout() {
+  const { theme, toggleTheme } = useThemeContext();
+
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "blue",
         headerShown: false,
+        tabBarActiveTintColor: theme.colors.primary,
+        tabBarInactiveTintColor: theme.colors.text,
         tabBarStyle: {
-          height: 80, // Aumentando a altura da barra inferior
-          paddingBottom: 10, // Ajustando o espaçamento inferior
-        },
-        tabBarIconStyle: {
-          height: 50, // Ajustando o tamanho do ícone para se ajustar à barra
-          width: 50, // Garantindo que o ícone tenha a largura adequada
-          marginTop: 5, // Ajustando a margem para evitar que o ícone seja cortado
+          backgroundColor: theme.colors.background,
+          borderTopWidth: 0,
+          height: 60,
         },
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={40} name="home" color={color} />
+            <Foundation name="list" size={25} color={color} style={styles.icon}/>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="account"
+              size={25}
+              style={styles.icon}
+              color={color}
+            />
           ),
         }}
       />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  icon: {
+    transform: [{ scale: 1.5 }],
+    alignSelf: "center",
+    paddingTop: 5,
+  },
+});

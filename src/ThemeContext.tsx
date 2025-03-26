@@ -20,5 +20,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const useThemeContext = () => useContext(ThemeContext);
-
+// Hook para consumir o contexto
+export const useThemeContext = () => {
+  return useContext(ThemeContext);
+};

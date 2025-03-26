@@ -23,6 +23,7 @@ export const Buttom = styled.Button<ButtonProps>`
   font-weight: bold;
   transition: background-color 0.3s;
   margin: 10px;
+  
   &:hover {
     background-color: ${(props) => props.theme.colors.accent};
   }
