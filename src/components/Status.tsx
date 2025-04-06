@@ -43,9 +43,7 @@ const Container = styled.View`
   
   background-color: ${(props) => props.theme.background};
   
-  
-  width: 100%;
-  
+  min-width: 100%;
   display: flex;
   
   flex-wrap: wrap;

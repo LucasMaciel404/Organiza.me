@@ -44,7 +44,6 @@ export default function LoginScreen() {
   );
 }
 
-// 🎨 Estilização com Styled Components
 const Container = styled.View`
   flex: 1;
   justify-content: center;

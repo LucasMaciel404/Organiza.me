@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Alert } from "react-native";
 import styled from "styled-components/native";
 import { useAuth } from "./../context/AuthContext";
+import Input from "../components/Input";
 
 export default function LoginScreen() {
   const { signIn } = useAuth();
@@ -31,14 +32,14 @@ export default function LoginScreen() {
       <Input
         placeholder="E-mail"
         value={email}
-        onChangeText={setEmail}
+        onChange={setEmail}
         keyboardType="email-address"
         autoCapitalize="none"
       />
       <Input
         placeholder="Senha"
         value={password}
-        onChangeText={setPassword}
+        onChange={setPassword}
         secureTextEntry
       />
       <LoginButton onPress={handleLogin} disabled={loading}>
@@ -61,16 +62,6 @@ const Title = styled.Text`
   font-size: 28px;
   font-weight: bold;
   margin-bottom: 20px;
-`;
-
-const Input = styled.TextInput`
-  width: 100%;
-  height: 50px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 15px;
-  font-size: 16px;
 `;
 
 const LoginButton = styled.TouchableOpacity`
