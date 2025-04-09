@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useFonts } from "expo-font";
 import { Text } from "react-native";
 import { StorageProvider } from "@/src/context/StorangeContext";
+import { SettingsProvider } from "@/src/context/SettingsContext";
 
 export default function Layout() {
   return (
@@ -32,13 +33,15 @@ function RootLayout() {
   // }, [user]);
 
   return (
-    <StorageProvider>
-      <ThemeProvider>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" options={{ title: "Not Found" }} />
-        </Stack>
-      </ThemeProvider>
-    </StorageProvider>
+    <SettingsProvider>
+      <StorageProvider>
+        <ThemeProvider>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" options={{ title: "Not Found" }} />
+          </Stack>
+        </ThemeProvider>
+      </StorageProvider>
+    </SettingsProvider>
   );
 }

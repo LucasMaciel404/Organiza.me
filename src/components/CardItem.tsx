@@ -12,7 +12,9 @@ interface RequestCard {
   name: string;
   value: number;
   date: string;
+  onDelete: () => void; // Adicione esta propriedade
 }
+
 
 export default function Card({ id, name, value, date }: RequestCard) {
   const { theme } = useThemeContext();

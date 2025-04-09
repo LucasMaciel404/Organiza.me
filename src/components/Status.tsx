@@ -1,6 +1,5 @@
 import styled from "styled-components/native";
 import { useThemeContext } from "../ThemeContext";
-import { View, Text, PixelRatio } from "react-native";
 
 interface StatusMoneyProps {
   salario: number;
@@ -12,80 +11,61 @@ export default function StatusMoney({ salario, gasto, saldo }: StatusMoneyProps)
   const { theme } = useThemeContext();
 
   return (
-    <Container theme={theme}>
+    <Container>
       <Row>
-        <Col>
-          <Center>
-            <Span>Salario</Span>
-            <Title color={theme.colors.success}> {salario}$ </Title>
-          </Center>
-        </Col>
-        <Col>
-          <Center>
-            <Span>Dividas</Span>
-            <Title color={theme.colors.warning}> {gasto}$ </Title>
-          </Center>
-        </Col>
-        <Col>
-          <Center>
-            <Span>Saldo</Span>
-            <Title color={theme.colors.text}> {saldo}$ </Title>
-          </Center>
-        </Col>
+        <InfoBox>
+          <Label>Salário R$:</Label>
+          <Value color={theme.colors.success}>
+            {salario.toFixed(2)}
+          </Value>
+        </InfoBox>
+
+        <InfoBox>
+          <Label>Dívidas R$:</Label>
+          <Value color={theme.colors.warning}>
+            {gasto.toFixed(2)}
+          </Value>
+        </InfoBox>
+
+        <InfoBox>
+          <Label>Saldo R$:</Label>
+          <Value color={theme.colors.text}>
+            {saldo.toFixed(2)}
+          </Value>
+        </InfoBox>
       </Row>
     </Container>
   );
 }
-
-const fontSize = PixelRatio.getFontScale() * 16;
-
 const Container = styled.View`
-  
+  width: 100%;
+  padding: 20px 10px;
   background-color: ${(props) => props.theme.background};
-  
-  min-width: 100%;
-  display: flex;
-  
-  flex-wrap: wrap;
-  
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 20px;
 `;
-
-const Title = styled.Text<{color: string}>`
-  font-size: ${fontSize * 3}px;
-  font-weight: bold;
-  color: ${(props) => props.color};
-  `;
-
-const Span = styled.Text`
-  font-size: 20px;
-  font-weight: bold;
-  
-  color: #b1b1b1;
-  `;
 
 const Row = styled.View`
-  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  `;
-
-const Col = styled.View`
-  display: flex;
-  flex-direction: column;
-  flex-basis: 100%;
-  flex: 1;
+  justify-content: space-between;
 `;
 
-const Center = styled.View`
-  display: flex;
-  flex-direction: column;
-  flex-basis: 100%;
-  flex: 1;
-  /* border: black 1px solid; */
-
+const InfoBox = styled.View`
+  width: 30%;
+  min-width: 110px;
+  margin-bottom: 15px;
   align-items: center;
   justify-content: center;
+`;
+
+const Label = styled.Text`
+  font-size: 16px;
+  color: #b1b1b1;
+  font-weight: bold;
+`;
+
+const Value = styled.Text<{ color: string }>`
+  font-size: 30px;
+  font-weight: bold;
+  color: ${(props) => props.color};
+  margin-top: 5px;
 `;

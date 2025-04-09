@@ -4,12 +4,14 @@ import StatusMoney from "../components/Status";
 import Line from "../components/Line";
 import Card from "../components/CardItem";
 import { useStorageContext } from "../context/StorangeContext";
+import { useSettingsContext } from "../context/SettingsContext";
 
 export default function HomePage() {
   const { theme } = useThemeContext();
   const { data, removeItem } = useStorageContext();
+  const { salary } = useSettingsContext();
 
-  const salario = 1500;
+  const salario = salary ?? 1000; // garante valor padrão de 1000 se estiver undefined
 
   const gasto = Array.isArray(data)
     ? data.reduce((total, item) => {
