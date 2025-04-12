@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import Foundation from "@expo/vector-icons/Foundation";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useThemeContext } from "@/src/ThemeContext";
+import { useThemeContext } from "@/src/context/ThemeContext";
 import { StyleSheet } from "react-native";
 
 export default function Layout() {
@@ -25,7 +25,12 @@ export default function Layout() {
         options={{
           title: "",
           tabBarIcon: ({ color }) => (
-            <Foundation name="list" size={25} color={color} style={styles.icon}/>
+            <Foundation
+              name="list"
+              size={25}
+              color={color}
+              style={styles.icon}
+            />
           ),
         }}
       />

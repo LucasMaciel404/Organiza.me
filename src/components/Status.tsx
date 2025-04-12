@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { useThemeContext } from "../ThemeContext";
+import { useThemeContext } from "../context/ThemeContext";
 
 interface StatusMoneyProps {
   salario: number;
@@ -7,7 +7,11 @@ interface StatusMoneyProps {
   saldo: number;
 }
 
-export default function StatusMoney({ salario, gasto, saldo }: StatusMoneyProps) {
+export default function StatusMoney({
+  salario,
+  gasto,
+  saldo,
+}: StatusMoneyProps) {
   const { theme } = useThemeContext();
 
   return (
@@ -15,23 +19,17 @@ export default function StatusMoney({ salario, gasto, saldo }: StatusMoneyProps)
       <Row>
         <InfoBox>
           <Label>Salário R$:</Label>
-          <Value color={theme.colors.success}>
-            {salario.toFixed(2)}
-          </Value>
+          <Value color={theme.colors.success}>{salario.toFixed(2)}</Value>
         </InfoBox>
 
         <InfoBox>
           <Label>Dívidas R$:</Label>
-          <Value color={theme.colors.warning}>
-            {gasto.toFixed(2)}
-          </Value>
+          <Value color={theme.colors.warning}>{gasto.toFixed(2)}</Value>
         </InfoBox>
 
         <InfoBox>
           <Label>Saldo R$:</Label>
-          <Value color={theme.colors.text}>
-            {saldo.toFixed(2)}
-          </Value>
+          <Value color={theme.colors.text}>{saldo.toFixed(2)}</Value>
         </InfoBox>
       </Row>
     </Container>

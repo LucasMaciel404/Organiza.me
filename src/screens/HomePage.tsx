@@ -1,4 +1,4 @@
-import { useThemeContext } from "../ThemeContext";
+import { useThemeContext } from "../context/ThemeContext";
 import styled from "styled-components/native";
 import StatusMoney from "../components/Status";
 import Line from "../components/Line";
@@ -15,7 +15,8 @@ export default function HomePage() {
 
   const gasto = Array.isArray(data)
     ? data.reduce((total, item) => {
-        const valor = typeof item.value === "number" ? item.value : parseFloat(item.value);
+        const valor =
+          typeof item.value === "number" ? item.value : parseFloat(item.value);
         return total + (isNaN(valor) ? 0 : valor);
       }, 0)
     : 0;

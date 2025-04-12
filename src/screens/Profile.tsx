@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components/native";
-import { useThemeContext } from "../ThemeContext";
+import { useThemeContext } from "../context/ThemeContext";
 import OptionsModal from "../components/OptionsModal";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
@@ -20,7 +20,10 @@ export default function ProfileScreen() {
         <OpenModalText theme={theme}>Abrir opções</OpenModalText>
       </OpenModalButton>
 
-      <OptionsModal visible={modalVisible} onClose={() => setModalVisible(false)} />
+      <OptionsModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      />
     </Container>
   );
 }
@@ -38,8 +41,9 @@ const OpenModalButton = styled.TouchableOpacity`
   align-items: center;
   width: 90%;
   padding: 15px;
-  background-color: #ccc;
+  background-color: ${(props) => props.theme.colors.background};
   border-radius: 10px;
+  border: 1px solid ${(props) => props.theme.colors.text};
 `;
 
 const OpenModalText = styled.Text`

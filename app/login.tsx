@@ -1,11 +1,12 @@
 import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
-import { useThemeContext } from "@/src/ThemeContext";
+import { useThemeContext } from "@/src/context/ThemeContext";
 import { useLogin } from "./../src/hooks/useLogin"; // Importando o hook
 
 export default function LoginScreen() {
-  const { email, setEmail, password, setPassword, loading, handleLogin } = useLogin();
+  const { email, setEmail, password, setPassword, loading, handleLogin } =
+    useLogin();
   const { theme } = useThemeContext();
 
   const navigation = useNavigation();

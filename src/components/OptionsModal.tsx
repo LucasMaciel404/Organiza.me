@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { ModalComponent } from "./Modal";
-import { useThemeContext } from "../ThemeContext";
+import { useThemeContext } from "../context/ThemeContext";
 import { useSettingsContext } from "./../context/SettingsContext";
-import { Feather } from '@expo/vector-icons';
+import { Feather } from "@expo/vector-icons";
 
 type Props = {
   visible: boolean;
@@ -59,6 +59,7 @@ const ModalContent = styled.View`
   padding: 20px;
   gap: 15px;
   position: relative;
+  background-color: ${(props) => props.theme.colors.background};
 `;
 
 const CloseIconContainer = styled.TouchableOpacity`

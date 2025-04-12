@@ -10,10 +10,11 @@ export const DarkTheme : ITheme = {
     theme: "dark",
     success: "#4CAF50",
     warning: "#FFC107",
+    info: "#2196F3",
     danger: "#F44336",
   },
   card: {
-    background: "#ECDFCC",
+    background: "#F8F0C0",
     border: "#fff",
     text: "#1E201E",
   },

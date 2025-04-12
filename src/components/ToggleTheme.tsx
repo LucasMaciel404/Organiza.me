@@ -1,5 +1,5 @@
 import React from "react";
-import { useThemeContext } from "@/src/ThemeContext"; // Hook para acessar o contexto de tema
+import { useThemeContext } from "@/src/context/ThemeContext"; // Hook para acessar o contexto de tema
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons"; // Importa a biblioteca de ícones do Expo
 

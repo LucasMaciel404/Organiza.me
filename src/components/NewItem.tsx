@@ -2,14 +2,14 @@ import { useState } from "react";
 import styled from "styled-components/native";
 import { Button } from "react-native";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
+import "react-native-get-random-values";
+import { v4 as uuidv4 } from "uuid";
 
-
-import { useThemeContext } from "../ThemeContext";
+import { useThemeContext } from "../context/ThemeContext";
 import { ModalComponent } from "./Modal";
 import Input from "./Input";
 import { useStorageContext } from "../context/StorangeContext";
+import DateInput from "./DateInput";
 
 export default function NewItem() {
   const { theme } = useThemeContext();
@@ -17,7 +17,7 @@ export default function NewItem() {
 
   const [name, setName] = useState("");
   const [value, setValue] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState<Date | undefined>(new Date());
 
   const { addItem } = useStorageContext();
 
@@ -28,7 +28,7 @@ export default function NewItem() {
       id: uuidv4(), // <- adiciona o ID aqui!
       name,
       value: parseFloat(value),
-      date,
+      date: date.toString(), // Convert Date to string
     };
 
     addItem(item);
@@ -37,7 +37,7 @@ export default function NewItem() {
     setModalVisible(false);
     setName("");
     setValue("");
-    setDate("");
+    setDate(new Date());
   };
 
   return (
@@ -50,7 +50,10 @@ export default function NewItem() {
         />
       </Conteiner>
 
-      <ModalComponent visible={modalVisible} onClose={() => setModalVisible(false)}>
+      <ModalComponent
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      >
         <Input placeholder="Nome da conta" value={name} onChange={setName} />
         <Input
           placeholder="Valor da conta"
@@ -58,7 +61,11 @@ export default function NewItem() {
           onChange={setValue}
           keyboardType="numeric"
         />
-        <Input placeholder="Data da conta" value={date} onChange={setDate} />
+        <DateInput
+          value={date}
+          onChange={setDate}
+          placeholder="Data da conta"
+        />
         <Button title="Salvar" onPress={handleSave} />
       </ModalComponent>
     </>

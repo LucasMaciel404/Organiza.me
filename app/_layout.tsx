@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@/src/ThemeContext";
+import { ThemeProvider } from "@/src/context/ThemeContext";
 import { Stack, useRouter } from "expo-router";
 import { AuthProvider, useAuth } from "./../src/context/AuthContext";
 import { useEffect } from "react";

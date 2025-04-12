@@ -3,7 +3,7 @@ import { TouchableOpacity } from "react-native"; // Usamos TouchableOpacity para
 import { Ionicons } from "@expo/vector-icons"; // Biblioteca de ícones do Expo
 import { useRouter } from "expo-router"; // Hook para navegação
 import { useAuth } from "@/src/context/AuthContext"; // Hook para acessar o contexto de autenticação
-import { useThemeContext } from "@/src/ThemeContext"; // Hook para acessar o contexto de tema
+import { useThemeContext } from "@/src/context/ThemeContext"; // Hook para acessar o contexto de tema
 
 const LogoutButton = () => {
   const { signOut } = useAuth(); // Hook para o contexto de autenticação

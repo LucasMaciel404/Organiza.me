@@ -8,14 +8,14 @@ export const LightTheme: ITheme = {
     text: "#000", // cor do texto
     accent: "#ff4081", // nem um uso ainda
     success: "#4CAF50",
+    info: "#2196F3",
     warning: "#FFC107",
     danger: "#F44336",
     theme: "light",
   },
   card: {
-    background: "#FDFBEE",
+    background: "#F8F0C0",
     border: "#fff",
     text: "#000",
-
   },
 };

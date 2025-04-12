@@ -1,11 +1,12 @@
 import styled from "styled-components/native";
-import { useThemeContext } from "../ThemeContext";
-import React, { useState } from "react";
+import { useThemeContext } from "../context/ThemeContext";
+import React, { useEffect, useState } from "react";
 import { ModalComponent } from "./Modal";
 import Input from "./Input";
 import { Button, TouchableOpacity } from "react-native";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useStorageContext } from "../context/StorangeContext";
+import DateInput from "./DateInput";
 
 interface RequestCard {
   id: string;
@@ -15,7 +16,6 @@ interface RequestCard {
   onDelete: () => void; // Adicione esta propriedade
 }
 
-
 export default function Card({ id, name, value, date }: RequestCard) {
   const { theme } = useThemeContext();
   const { removeItem, editItem } = useStorageContext();
@@ -23,7 +23,9 @@ export default function Card({ id, name, value, date }: RequestCard) {
   const [modalVisible, setModalVisible] = useState(false);
   const [editedName, setEditedName] = useState(name);
   const [editedValue, setEditedValue] = useState(String(value));
-  const [editedDate, setEditedDate] = useState(date);
+  const [editedDate, setEditedDate] = useState<Date | undefined>(
+    new Date(date)
+  );
 
   const handleSave = async () => {
     if (!editedName || !editedValue || !editedDate) return;
@@ -32,7 +34,7 @@ export default function Card({ id, name, value, date }: RequestCard) {
       id,
       name: editedName,
       value: parseFloat(editedValue),
-      date: editedDate,
+      date: editedDate.toDateString(),
     });
 
     setModalVisible(false);
@@ -47,22 +49,42 @@ export default function Card({ id, name, value, date }: RequestCard) {
       <Item theme={theme}>
         <IconsRow>
           <TouchableOpacity onPress={() => setModalVisible(true)}>
-            <MaterialCommunityIcons name="pencil" size={20} color={theme.colors.text} />
+            <MaterialCommunityIcons
+              name="pencil"
+              size={20}
+              color={theme.colors.info}
+            />
           </TouchableOpacity>
           <TouchableOpacity onPress={handleDelete}>
-            <MaterialCommunityIcons name="trash-can-outline" size={20} color={theme.colors.text} />
+            <MaterialCommunityIcons
+              name="trash-can-outline"
+              size={20}
+              color={theme.colors.danger}
+            />
           </TouchableOpacity>
         </IconsRow>
 
         <Description colorText={theme.card.text}>{name}</Description>
-        <Value colorText={theme.card.text}>${value}</Value>
-        <DateText colorText={theme.card.text}>{date}</DateText>
+        <Value colorText={theme.card.text}>$ {value}</Value>
+        <DateText colorText={theme.card.text}>
+          {new Date(date).toLocaleDateString("pt-BR")}
+        </DateText>
       </Item>
 
-      <ModalComponent visible={modalVisible} onClose={() => setModalVisible(false)}>
+      <ModalComponent
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      >
         <Input placeholder="Nome" value={editedName} onChange={setEditedName} />
-        <Input placeholder="Valor" value={editedValue} onChange={setEditedValue} keyboardType="numeric" />
-        <Input placeholder="Data" value={editedDate} onChange={setEditedDate} />
+        <Input
+          placeholder="Valor"
+          value={editedValue}
+          onChange={setEditedValue}
+          keyboardType="numeric"
+        />
+
+        <DateInput value={editedDate} onChange={setEditedDate} placeholder="" />
+
         <Button title="Salvar alterações" onPress={handleSave} />
       </ModalComponent>
     </Container>
@@ -85,14 +107,22 @@ const Item = styled.TouchableOpacity`
 
 const Description = styled.Text<{ colorText: string }>`
   color: ${(props) => props.colorText};
+  margin: 10px 0;
 `;
 
 const Value = styled.Text<{ colorText: string }>`
   color: ${(props) => props.colorText};
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 25px;
 `;
 
 const DateText = styled.Text<{ colorText: string }>`
   color: ${(props) => props.colorText};
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
 `;
 
 const IconsRow = styled.View`

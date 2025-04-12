@@ -1,27 +1,25 @@
 import { ThemeToggleButton } from "@/src/components/ToggleTheme";
-import { useThemeContext } from "@/src/ThemeContext";
+import { useThemeContext } from "@/src/context/ThemeContext";
 import { ReactNode } from "react";
 import styled from "styled-components/native";
 
 export default function Layout({ children }: { children: ReactNode }) {
-
   const { theme } = useThemeContext();
 
   return (
     <Container theme={theme}>
       <Header theme={theme}>
-        <Title theme={theme}>simples</Title>
+        <Title theme={theme}>Simples</Title>
         <ThemeToggleButton />
       </Header>
-      
+
       {children}
-      
     </Container>
   );
 }
 
 const Container = styled.View`
-display: flex;;
+  display: flex;
   flex: 1;
   background-color: ${(props) => props.theme.colors.background};
 `;
@@ -34,7 +32,7 @@ const Header = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  `;
+`;
 /* 
 
   shadow-color: ${(props) => props.theme.colors.text};
@@ -50,6 +48,6 @@ const Header = styled.View`
 const Title = styled.Text`
   color: ${(props) => props.theme.colors.text};
   font-size: 40px;
-  
+
   font-family: "Caveat-Regular";
 `;

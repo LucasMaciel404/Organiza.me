@@ -21,7 +21,9 @@ export default interface ITheme {
     warning: string;
 
     danger: string;
-
+    // Cor de informação
+    info: string;
+    
     // O tema
     theme: string; 
 

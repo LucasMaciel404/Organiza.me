@@ -1,13 +1,10 @@
 import styled from "styled-components/native";
-import { useThemeContext } from "../ThemeContext";
+import { useThemeContext } from "../context/ThemeContext";
 
 export default function Line() {
   const { theme } = useThemeContext();
-  return (
-    <Divider theme={theme}/>
-  );
+  return <Divider theme={theme} />;
 }
-
 
 const Divider = styled.View`
   height: 1px;
