@@ -1,0 +1,84 @@
+import React, { useContext, useState } from "react";
+import { Alert, StatusBar } from "react-native";
+import styled from "styled-components/native";
+import { useAuth } from "./../context/AuthContext";
+import Input from "../components/Input";
+import { useThemeContext } from "../context/ThemeContext";
+
+export default function LoginScreen() {
+  const { signIn } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { theme } = useThemeContext();
+  
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert("Erro", "Por favor, preencha todos os campos.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await signIn(email, password);
+      Alert.alert("Sucesso", "Login realizado!");
+    } catch (error : any) {
+      Alert.alert("Erro", error.message);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <Container>
+      <StatusBar barStyle={theme.colors.theme === 'dark' ? 'light-content' : 'dark-content'} />
+      <Title>Bem-vindo</Title>
+      <Input
+        placeholder="E-mail"
+        value={email}
+        onChange={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
+      />
+      <Input
+        placeholder="Senha"
+        value={password}
+        onChange={setPassword}
+        secureTextEntry
+      />
+      <LoginButton onPress={handleLogin} disabled={loading}>
+        <ButtonText>{loading ? "Entrando..." : "Entrar"}</ButtonText>
+      </LoginButton>
+    </Container>
+  );
+}
+
+// 🎨 Estilização com Styled Components
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f4f4;
+  padding: 20px;
+`;
+
+const Title = styled.Text`
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+`;
+
+const LoginButton = styled.TouchableOpacity`
+  width: 100%;
+  height: 50px;
+  background-color: #6200ea;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+`;
+
+const ButtonText = styled.Text`
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+`;
