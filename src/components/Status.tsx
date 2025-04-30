@@ -14,27 +14,34 @@ export default function StatusMoney({
 }: StatusMoneyProps) {
   const { theme } = useThemeContext();
 
+  const formatCurrency = (value: number) =>
+    new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(value);
+
   return (
     <Container>
       <Row>
         <InfoBox>
-          <Label>Salário R$:</Label>
-          <Value color={theme.colors.success}>{salario.toFixed(2)}</Value>
+          <Label>Salário:</Label>
+          <Value color={theme.colors.success}>{formatCurrency(salario)}</Value>
         </InfoBox>
 
         <InfoBox>
-          <Label>Dívidas R$:</Label>
-          <Value color={theme.colors.warning}>{gasto.toFixed(2)}</Value>
+          <Label>Dívidas:</Label>
+          <Value color={theme.colors.warning}>{formatCurrency(gasto)}</Value>
         </InfoBox>
 
         <InfoBox>
-          <Label>Saldo R$:</Label>
-          <Value color={theme.colors.text}>{saldo.toFixed(2)}</Value>
+          <Label>Saldo:</Label>
+          <Value color={theme.colors.text}>{formatCurrency(saldo)}</Value>
         </InfoBox>
       </Row>
     </Container>
   );
 }
+
 const Container = styled.View`
   width: 100%;
   padding: 20px 10px;
@@ -62,7 +69,7 @@ const Label = styled.Text`
 `;
 
 const Value = styled.Text<{ color: string }>`
-  font-size: 30px;
+  font-size: 24px;
   font-weight: bold;
   color: ${(props) => props.color};
   margin-top: 5px;

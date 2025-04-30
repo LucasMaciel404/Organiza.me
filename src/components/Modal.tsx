@@ -1,12 +1,11 @@
 import React from 'react';
 import {
   Modal,
-  View,
-  Text,
-  StyleSheet,
   TouchableWithoutFeedback,
   GestureResponderEvent,
 } from 'react-native';
+import styled from 'styled-components/native';
+import { useThemeContext } from '../context/ThemeContext'; // Ajuste o caminho conforme necessário
 
 type ModalComponentProps = {
   visible: boolean;
@@ -15,6 +14,8 @@ type ModalComponentProps = {
 };
 
 export function ModalComponent({ visible, onClose, children }: ModalComponentProps) {
+  const { theme } = useThemeContext();
+
   return (
     <Modal
       transparent
@@ -23,34 +24,34 @@ export function ModalComponent({ visible, onClose, children }: ModalComponentPro
       onRequestClose={onClose}
     >
       <TouchableWithoutFeedback onPress={onClose}>
-        <View style={styles.overlay}>
+        <Overlay>
           <TouchableWithoutFeedback>
-            <View style={styles.modalContent}>
+            <ModalContent theme={theme}>
               {children}
-            </View>
+            </ModalContent>
           </TouchableWithoutFeedback>
-        </View>
+        </Overlay>
       </TouchableWithoutFeedback>
     </Modal>
   );
 }
 
-const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContent: {
-    width: '85%',
-    backgroundColor: '#fff',
-    padding: 24,
-    borderRadius: 12,
-    elevation: 6,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-  },
-});
+// Styled components
+const Overlay = styled.View`
+  flex: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModalContent = styled.View`
+  width: 85%;
+  background-color: ${(props) => props.theme.colors.background};
+  padding: 24px;
+  border-radius: 12px;
+  elevation: 6;
+  shadow-color: #000;
+  shadow-offset: 0px 2px;
+  shadow-opacity: 0.3;
+  shadow-radius: 4px;
+`;

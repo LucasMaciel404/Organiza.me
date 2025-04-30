@@ -37,13 +37,14 @@ export default function OptionsModal({ visible, onClose }: Props) {
 
   return (
     <ModalComponent visible={visible} onClose={onClose}>
-      <ModalContent>
+      <ModalContent theme={theme}>
         <CloseIconContainer onPress={onClose}>
           <Feather name="x" size={24} color={theme.colors.text} />
         </CloseIconContainer>
 
         <LabelText theme={theme}>Salário atual</LabelText>
         <SalaryInput
+          theme={theme}
           value={localSalary}
           onChangeText={setLocalSalary}
           keyboardType="numeric"
@@ -81,6 +82,7 @@ const SalaryInput = styled.TextInput`
   border-radius: 8px;
   padding: 10px;
   font-size: 16px;
+  color: ${(props) => props.theme.colors.text}; 
 `;
 
 const SaveButton = styled.Button``;

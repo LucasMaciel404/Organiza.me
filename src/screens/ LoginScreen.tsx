@@ -1,14 +1,17 @@
-import React, { useState } from "react";
-import { Alert } from "react-native";
+import React, { useContext, useState } from "react";
+import { Alert, StatusBar } from "react-native";
 import styled from "styled-components/native";
 import { useAuth } from "./../context/AuthContext";
 import Input from "../components/Input";
+import { useThemeContext } from "../context/ThemeContext";
 
 export default function LoginScreen() {
   const { signIn } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const { theme } = useThemeContext();
+  
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -28,6 +31,7 @@ export default function LoginScreen() {
 
   return (
     <Container>
+      <StatusBar barStyle={theme.colors.theme === 'dark' ? 'light-content' : 'dark-content'} />
       <Title>Bem-vindo</Title>
       <Input
         placeholder="E-mail"

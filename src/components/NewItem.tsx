@@ -27,7 +27,7 @@ export default function NewItem() {
     const item = {
       id: uuidv4(), // <- adiciona o ID aqui!
       name,
-      value: parseFloat(value),
+      value: parseFloat(value.replace(',', '.')),
       date: date.toString(), // Convert Date to string
     };
 
@@ -65,7 +65,7 @@ export default function NewItem() {
           value={date}
           onChange={setDate}
           placeholder="Data da conta"
-        />
+          />
         <Button title="Salvar" onPress={handleSave} />
       </ModalComponent>
     </>
