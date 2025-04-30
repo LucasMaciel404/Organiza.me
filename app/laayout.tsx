@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     <Container theme={theme}>
       <Header theme={theme}>
         <Title theme={theme}>Simples</Title>
-        <ThemeToggleButton />
+        {/* <ThemeToggleButton /> */}
       </Header>
 
       {children}

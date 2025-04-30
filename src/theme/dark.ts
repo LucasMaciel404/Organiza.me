@@ -6,7 +6,7 @@ export const DarkTheme : ITheme = {
     background: "#1E201E", // plano de fundo
     surface: "#121212", // fica em cima da cor prymary
     text: "#fff", // cor do texto
-    accent: "#ff4081",
+    accent: "#FFC107",
     theme: "dark",
     success: "#4CAF50",
     warning: "#FFC107",

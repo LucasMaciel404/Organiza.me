@@ -1,21 +1,22 @@
-import React, { useContext, useState } from "react";
-import { Alert, StatusBar } from "react-native";
+import React, { useState } from "react";
+import { Alert } from "react-native";
 import styled from "styled-components/native";
 import { useAuth } from "./../context/AuthContext";
-import Input from "../components/Input";
 import { useThemeContext } from "../context/ThemeContext";
+import Input from "../components/Input";
+import { useRouter } from "expo-router"; // ou useNavigation, dependendo da navegação que você usa
 
 export default function LoginScreen() {
   const { signIn } = useAuth();
+  const { theme } = useThemeContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { theme } = useThemeContext();
-  
+  const router = useRouter();
 
   const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert("Erro", "Por favor, preencha todos os campos.");
+      Alert.alert("Erro", "Preencha todos os campos.");
       return;
     }
 
@@ -23,7 +24,7 @@ export default function LoginScreen() {
     try {
       await signIn(email, password);
       Alert.alert("Sucesso", "Login realizado!");
-    } catch (error : any) {
+    } catch (error: any) {
       Alert.alert("Erro", error.message);
     }
     setLoading(false);
@@ -31,29 +32,20 @@ export default function LoginScreen() {
 
   return (
     <Container>
-      <StatusBar barStyle={theme.colors.theme === 'dark' ? 'light-content' : 'dark-content'} />
       <Title>Bem-vindo</Title>
-      <Input
-        placeholder="E-mail"
-        value={email}
-        onChange={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      <Input
-        placeholder="Senha"
-        value={password}
-        onChange={setPassword}
-        secureTextEntry
-      />
+      <Input placeholder="E-mail" value={email} onChange={setEmail} keyboardType="email-address" autoCapitalize="none" />
+      <Input placeholder="Senha" value={password} onChange={setPassword} secureTextEntry />
+
       <LoginButton onPress={handleLogin} disabled={loading}>
         <ButtonText>{loading ? "Entrando..." : "Entrar"}</ButtonText>
       </LoginButton>
+
+      <TextLink onPress={() => router.push("/forgot-password")}>Esqueci minha senha</TextLink>
+      <TextLink onPress={() => router.push("/register")}>Cadastrar-se</TextLink>
     </Container>
   );
 }
 
-// 🎨 Estilização com Styled Components
 const Container = styled.View`
   flex: 1;
   justify-content: center;
@@ -75,10 +67,17 @@ const LoginButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
+  margin-top: 10px;
 `;
 
 const ButtonText = styled.Text`
   color: white;
   font-size: 18px;
   font-weight: bold;
+`;
+
+const TextLink = styled.Text`
+  color: #6200ea;
+  margin-top: 16px;
+  font-size: 16px;
 `;

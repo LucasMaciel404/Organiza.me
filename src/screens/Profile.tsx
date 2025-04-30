@@ -1,24 +1,45 @@
 import { useState } from "react";
 import styled from "styled-components/native";
 import { useThemeContext } from "../context/ThemeContext";
-import OptionsModal from "../components/OptionsModal";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { useAuth } from "@/src/context/AuthContext";
+import { useRouter } from "expo-router";
+import OptionsModal from "../components/OptionsModal";
 
 export default function ProfileScreen() {
   const { theme } = useThemeContext();
+  const { signOut } = useAuth();
+  const router = useRouter();
   const [modalVisible, setModalVisible] = useState(false);
+
+  const handleLogout = async () => {
+    await signOut();
+    router.replace("/login");
+  };
 
   return (
     <Container theme={theme}>
-      <OpenModalButton onPress={() => setModalVisible(true)} theme={theme}>
+      <Title theme={theme}>Meu Perfil</Title>
+
+      <OptionButton onPress={() => setModalVisible(true)} theme={theme}>
         <MaterialCommunityIcons
-          name="cog-outline"
-          size={24}
-          color={theme.colors.text}
-          style={{ marginRight: 10 }}
+          name="cash"
+          size={28}
+          color={theme.colors.primary}
+          style={{ marginRight: 12 }}
         />
-        <OpenModalText theme={theme}>Abrir opções</OpenModalText>
-      </OpenModalButton>
+        <OptionText theme={theme}>Informar salário</OptionText>
+      </OptionButton>
+
+      <OptionButton onPress={handleLogout} theme={theme}>
+        <MaterialCommunityIcons
+          name="logout"
+          size={28}
+          color={theme.colors.primary}
+          style={{ marginRight: 12 }}
+        />
+        <OptionText theme={theme}>Sair da conta</OptionText>
+      </OptionButton>
 
       <OptionsModal
         visible={modalVisible}
@@ -30,23 +51,40 @@ export default function ProfileScreen() {
 
 const Container = styled.View`
   flex: 1;
-  justify-content: start;
-  align-items: center;
-  padding-top: 40px;
   background-color: ${(props) => props.theme.colors.background};
+  padding: 20px;
+  align-items: center;
 `;
 
-const OpenModalButton = styled.TouchableOpacity`
+const Title = styled.Text`
+  font-size: 32px;
+  font-weight: bold;
+  color: ${(props) => props.theme.colors.text};
+  margin-bottom: 40px;
+  font-family: "Poppins-Bold";
+`;
+
+const OptionButton = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-  width: 90%;
-  padding: 15px;
-  background-color: ${(props) => props.theme.colors.background};
-  border-radius: 10px;
+  width: 100%;
+  max-width: 350px;
+  padding: 18px 20px;
+  background-color: ${(props) => props.theme.colors.surface};
+  border-radius: 12px;
   border: 1px solid ${(props) => props.theme.colors.text};
+  margin-bottom: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Verifique o suporte a box-shadow */
+  elevation: 2; /* Para Android */
+  transition: all 0.3s ease;
+
+  &:active {
+    transform: translateY(-2px);
+  }
 `;
 
-const OpenModalText = styled.Text`
-  font-size: 16px;
+const OptionText = styled.Text`
+  font-size: 18px;
   color: ${(props) => props.theme.colors.text};
+  font-family: "Poppins-Regular";
 `;

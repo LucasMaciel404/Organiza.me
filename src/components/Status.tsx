@@ -18,23 +18,23 @@ export default function StatusMoney({
     new Intl.NumberFormat("pt-BR", {
       style: "currency",
       currency: "BRL",
-    }).format(value);
+    }).format(value || 0);
 
   return (
     <Container>
       <Row>
         <InfoBox>
-          <Label>Salário:</Label>
+          <Label theme={theme}>Salário:</Label>
           <Value color={theme.colors.success}>{formatCurrency(salario)}</Value>
         </InfoBox>
 
         <InfoBox>
-          <Label>Dívidas:</Label>
+          <Label theme={theme}>Dívidas:</Label>
           <Value color={theme.colors.warning}>{formatCurrency(gasto)}</Value>
         </InfoBox>
 
         <InfoBox>
-          <Label>Saldo:</Label>
+          <Label theme={theme}>Saldo:</Label>
           <Value color={theme.colors.text}>{formatCurrency(saldo)}</Value>
         </InfoBox>
       </Row>
@@ -59,18 +59,21 @@ const InfoBox = styled.View`
   min-width: 110px;
   margin-bottom: 15px;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
 `;
 
 const Label = styled.Text`
   font-size: 16px;
-  color: #b1b1b1;
+  color: ${(props) => props.theme.colors.text};
   font-weight: bold;
+  text-align: center;
 `;
 
 const Value = styled.Text<{ color: string }>`
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   color: ${(props) => props.color};
   margin-top: 5px;
+  text-align: center;
+  min-height: 30px;
 `;
