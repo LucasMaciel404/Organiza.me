@@ -6,7 +6,7 @@ export const LightTheme: ITheme = {
     background: "#fff", // plano de fundo
     surface: "#fff", // fica em cima da cor prymary
     text: "#000", // cor do texto
-    accent: "#ff4081", // nem um uso ainda
+    accent: "#2196F3", // usado para detalhes importantes na interface
     success: "#4CAF50",
     info: "#2196F3",
     warning: "#FFC107",

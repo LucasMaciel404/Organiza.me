@@ -26,11 +26,11 @@ function RootLayout() {
     "Caveat-Regular": require("./../assets/fonts/Caveat-Regular.ttf"),
   });
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     router.replace("/login");
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (!user) {
+      router.replace("/login");
+    }
+  }, [user]);
 
   return (
     <SettingsProvider>
@@ -39,6 +39,12 @@ function RootLayout() {
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="+not-found" options={{ title: "Not Found" }} />
+            <Stack.Screen name="login" options={{ headerShown: false }} />
+            <Stack.Screen name="register" options={{ title: "Cadastrar" }} />
+            <Stack.Screen
+              name="forgot-password"
+              options={{ title: "Recuperar Senha" }}
+            />
           </Stack>
         </ThemeProvider>
       </StorageProvider>

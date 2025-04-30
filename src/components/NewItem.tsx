@@ -46,7 +46,7 @@ export default function NewItem() {
         <MaterialCommunityIcons
           name="pencil-plus"
           size={28}
-          color={theme.card.text}
+          color={theme.colors.surface}
         />
       </Conteiner>
 
@@ -76,7 +76,7 @@ const Conteiner = styled.TouchableOpacity`
   width: 70px;
   height: 70px;
   border-radius: 10px;
-  background-color: ${(props) => props.theme.card.background};
+  background-color: ${(props) => props.theme.colors.accent};
   border: 1px solid ${(props) => props.theme.card.text};
   display: flex;
   align-items: center;
