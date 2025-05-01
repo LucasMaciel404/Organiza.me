@@ -19,12 +19,21 @@ export const useLogin = () => {
     setLoading(true);
 
     try {
-      await signIn(email, password);
-      router.replace("/");
+      await signIn(email, password)
+        .then((res: boolean) => {
+          if (res === true) {
+            Alert.alert("Sucesso", "Login realizado com sucesso.");
+            router.replace("/");
+          } else {
+            Alert.alert("Erro", "Usuário ou senha incorretos.");
+          }
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     } catch (error: any) {
-      Alert.alert("Erro", error.message);
+      Alert.alert("Erro", "Houve um erro ao realizar o login.");
     }
-
     setLoading(false);
   };
 

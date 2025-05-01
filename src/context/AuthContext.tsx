@@ -3,14 +3,12 @@ import * as SecureStore from "expo-secure-store";
 import { login } from "../services/authService";
 
 type User = {
-  id: string;
-  email: string;
-  token: string;
+  token: string | null;
 };
 
 type AuthContextType = {
   user: User | null;
-  signIn: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<boolean>;
   signOut: () => Promise<void>;
 };
 
@@ -34,27 +32,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     loadUser();
   }, []);
 
-  // const signIn = async (email: string, password: string) => {
-  //   const data = await login(email, password);
-  //   setUser(data);
-  //   await SecureStore.setItemAsync("user_data", JSON.stringify(data));
-  // };
-  
   const signIn = async (email: string, password: string) => {
     try {
-      // Falso positivo: sempre retorna dados fictícios, mesmo que o login não tenha sido bem-sucedido.
-      const data = { id: "ficticio-id", email, token: "ficticio-token" }; // Dados simulados
-
-      // Atualizando o estado do usuário
-      setUser(data);
-
-      // Armazenando os dados fictícios no SecureStore de forma segura
+      const data = await login(email, password);
+      setUser({
+        token: data.access_token || null,
+      });
       await SecureStore.setItemAsync("user_data", JSON.stringify(data));
-
-      // Simulando uma mensagem de sucesso
-      console.log("Usuário logado com sucesso (falso positivo)");
+      return true;
     } catch (error) {
       console.error("Erro durante o login", error);
+      return false;
     }
   };
 
