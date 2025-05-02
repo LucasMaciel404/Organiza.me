@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import * as SecureStore from "expo-secure-store";
-import { login } from "../services/authService";
+import { login, register } from "../services/authService"; // importando a função de registro
 
 type User = {
   token: string | null;
@@ -9,6 +9,7 @@ type User = {
 type AuthContextType = {
   user: User | null;
   signIn: (email: string, password: string) => Promise<boolean>;
+  signUp: (email: string, password: string) => Promise<boolean>; // novo método
   signOut: () => Promise<void>;
 };
 
@@ -20,7 +21,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const loadUser = async () => {
       try {
-        // Agora a chave é válida
         const userData = await SecureStore.getItemAsync("user_data");
         if (userData) {
           setUser(JSON.parse(userData));
@@ -46,9 +46,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const signUp = async (email: string, password: string) => {
+    try {
+      const data = await register(email, password); // chamada para o serviço de registro
+      setUser({
+        token: data.access_token || null,
+      });
+      await SecureStore.setItemAsync("user_data", JSON.stringify(data));
+      return true;
+    } catch (error) {
+      console.error("Erro durante o cadastro", error);
+      return false;
+    }
+  };
+
   const signOut = async () => {
     try {
-      // Remove os dados do usuário do SecureStore
       await SecureStore.deleteItemAsync("user_data");
       setUser(null);
     } catch (error) {
@@ -57,7 +70,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, signIn, signUp, signOut }}>
       {children}
     </AuthContext.Provider>
   );

@@ -31,6 +31,7 @@ export default function ForgotPasswordScreen() {
 
   return (
     <Container theme={theme}>
+      <Logo source={require("./../assets/images/adaptive-icon.png")} />
       <Title theme={theme}>Recuperar Senha</Title>
       <Input
         placeholder="E-mail"
@@ -60,8 +61,8 @@ const Container = styled.View`
 `;
 
 const Title = styled.Text`
-  font-size: 26px;
-  font-weight: bold;
+  font-size: 40px;
+  font-family: "Caveat-Regular";
   margin-bottom: 20px;
   color: ${(props) => props.theme.colors.text};
 `;
@@ -90,4 +91,12 @@ const ButtonText = styled.Text`
   color: ${(props) => props.theme.colors.surface};
   font-size: 18px;
   font-weight: bold;
+`;
+
+const Logo = styled.Image`
+  width: 90px;
+  height: 90px;
+  position: absolute;
+  top: 80px;
+  align-self: center;
 `;

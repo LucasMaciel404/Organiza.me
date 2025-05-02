@@ -72,7 +72,7 @@ const Content = styled.View`
 `;
 
 const Title = styled.Text`
-  font-size: 40px;
+  font-size: 50px;
   font-family: "Caveat-Regular";
   color: ${(props) => props.theme.colors.text};
   margin-bottom: 40px;

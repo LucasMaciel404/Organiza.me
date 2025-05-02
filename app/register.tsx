@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import styled from "styled-components/native";
-import { useRouter } from "expo-router";
 import { Alert } from "react-native";
 import { useThemeContext } from "@/src/context/ThemeContext";
+import { useRegister } from "@/src/hooks/useRegister"; // ajuste o caminho se necessário
 
 export default function RegisterScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const { theme } = useThemeContext();
-  const router = useRouter();
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    loading,
+    handleRegister,
+  } = useRegister();
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleRegister = async () => {
+  const handleSubmit = async () => {
     if (!email || !password || !confirmPassword) {
       Alert.alert("Erro", "Preencha todos os campos.");
       return;
@@ -23,22 +27,14 @@ export default function RegisterScreen() {
       return;
     }
 
-    try {
-      setLoading(true);
-      // Simulação de cadastro
-      await new Promise((res) => setTimeout(res, 1000));
-      Alert.alert("Sucesso", "Cadastro realizado com sucesso!");
-      router.replace("/login");
-    } catch (error) {
-      Alert.alert("Erro", "Ocorreu um erro ao cadastrar.");
-    } finally {
-      setLoading(false);
-    }
+    await handleRegister(); // delega ao hook
   };
 
   return (
     <Container theme={theme}>
+      <Logo source={require("./../assets/images/adaptive-icon.png")} />
       <Title theme={theme}>Criar conta</Title>
+
       <Input
         placeholder="E-mail"
         value={email}
@@ -47,6 +43,7 @@ export default function RegisterScreen() {
         theme={theme}
         autoCapitalize="none"
       />
+
       <Input
         placeholder="Senha"
         value={password}
@@ -55,6 +52,7 @@ export default function RegisterScreen() {
         secureTextEntry
         theme={theme}
       />
+
       <Input
         placeholder="Confirmar Senha"
         value={confirmPassword}
@@ -64,7 +62,7 @@ export default function RegisterScreen() {
         theme={theme}
       />
 
-      <LoginButton onPress={handleRegister} disabled={loading} theme={theme}>
+      <LoginButton onPress={handleSubmit} disabled={loading} theme={theme}>
         <ButtonText theme={theme}>
           {loading ? "Cadastrando..." : "Cadastrar"}
         </ButtonText>
@@ -72,7 +70,6 @@ export default function RegisterScreen() {
     </Container>
   );
 }
-
 const Container = styled.View`
   flex: 1;
   justify-content: center;
@@ -82,8 +79,8 @@ const Container = styled.View`
 `;
 
 const Title = styled.Text`
-  font-size: 30px;
-  font-weight: bold;
+  font-size: 40px;
+  font-family: "Caveat-Regular";
   margin-bottom: 20px;
   color: ${(props) => props.theme.colors.text};
 `;
@@ -91,7 +88,7 @@ const Title = styled.Text`
 const Input = styled.TextInput`
   width: 100%;
   height: 50px;
-  border: 1px solid #ccc;
+  border: 1px solid ${(props) => props.theme.colors.border || "#ccc"};
   border-radius: 8px;
   padding: 10px;
   margin-bottom: 15px;
@@ -106,10 +103,19 @@ const LoginButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
+  margin-top: 10px;
 `;
 
 const ButtonText = styled.Text`
   color: ${(props) => props.theme.colors.surface};
   font-size: 18px;
   font-weight: bold;
+`;
+
+const Logo = styled.Image`
+  width: 90px;
+  height: 90px;
+  position: absolute;
+  top: 80px;
+  align-self: center;
 `;
