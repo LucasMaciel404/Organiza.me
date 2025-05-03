@@ -34,3 +34,18 @@ export const register = async (email: string, password: string): Promise<Partial
     throw new Error(err.response?.data?.message || "Erro ao fazer registro");
   }
 };
+
+export const forgotPassword = async (email: string): Promise<void> => {
+  try {
+    const response = await axios.post(`${API_URL}/auth/recover`, {
+      email: email
+    }).then((res) => {
+      if (res.status === 404) {
+        throw new Error("Usuário não encontrado");
+      }
+    });
+  } catch (error) {
+    const err = error as any;
+    throw new Error(err.response?.data?.message || "Erro ao recuperar senha");
+  }
+};
