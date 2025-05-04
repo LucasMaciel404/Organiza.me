@@ -22,7 +22,7 @@ export const useRegister = () => {
       await signUp(email, password)
         .then((res: boolean) => {
           if (res === true) {
-            Alert.alert("Sucesso", "Cadastro realizado com sucesso.");
+            // Alert.alert("Sucesso", "Cadastro realizado com sucesso.");
             router.replace("/"); // ou redirecione para tela de login, ex: router.push("/login")
           } else {
             Alert.alert("Erro", "Não foi possível realizar o cadastro.");

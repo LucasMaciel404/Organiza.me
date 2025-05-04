@@ -19,7 +19,10 @@ export const useForgotPassword = () => {
     try {
       // Simulação de envio de e-mail
       await forgotPassword(email);
-      Alert.alert("Sucesso", "Instruções enviadas para seu e-mail.");
+      Alert.alert(
+        "Sucesso",
+        "Instruções enviadas para seu e-mail. Verifique sua caixa de span."
+      );
       router.replace("/login");
     } catch (error: any) {
       Alert.alert("Erro", "Não foi possível recuperar a senha.");

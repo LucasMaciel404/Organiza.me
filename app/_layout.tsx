@@ -40,7 +40,7 @@ function RootLayout() {
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="+not-found" options={{ title: "Not Found" }} />
             <Stack.Screen name="login" options={{ headerShown: false }} />
-            <Stack.Screen name="register" options={{ title: "Cadastrar" }} />
+            <Stack.Screen name="register" options={{ title: "Cadastrar", headerShown: false }} />
             <Stack.Screen
               name="forgot-password"
               options={{ title: "Recuperar Senha" }}

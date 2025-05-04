@@ -107,7 +107,8 @@ const Item = styled.TouchableOpacity`
 
 const Description = styled.Text<{ colorText: string }>`
   color: ${(props) => props.colorText};
-  margin: 10px 0;
+  font-size: 20px;
+  margin: 10px 0 20px 0;
 `;
 
 const Value = styled.Text<{ colorText: string }>`

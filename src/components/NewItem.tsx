@@ -10,6 +10,7 @@ import { ModalComponent } from "./Modal";
 import Input from "./Input";
 import { useStorageContext } from "../context/StorangeContext";
 import DateInput from "./DateInput";
+import { createCard } from "./../services/cardService"; // <- Importa a função da API
 
 export default function NewItem() {
   const { theme } = useThemeContext();
@@ -21,23 +22,35 @@ export default function NewItem() {
 
   const { addItem } = useStorageContext();
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!name || !value || !date) return;
 
-    const item = {
-      id: uuidv4(), // <- adiciona o ID aqui!
-      name,
-      value: parseFloat(value.replace(',', '.')),
-      date: date.toString(), // Convert Date to string
-    };
+    const parsedValue = parseFloat(value.replace(',', '.'));
+    const formattedDate = date.toISOString();
 
-    addItem(item);
+    try {
+      // Salva na API
+      const savedCard = await createCard(name, formattedDate, parsedValue);
 
-    // Limpa o formulário e fecha o modal
-    setModalVisible(false);
-    setName("");
-    setValue("");
-    setDate(new Date());
+      // Salva no contexto/local storage
+      const item = {
+        id: savedCard.id || uuidv4(),
+        name,
+        value: parsedValue,
+        date: formattedDate,
+      };
+
+      addItem(item);
+
+      // Limpa o formulário e fecha o modal
+      setModalVisible(false);
+      setName("");
+      setValue("");
+      setDate(new Date());
+    } catch (error) {
+      console.error("Erro ao salvar item:", error);
+      // Aqui você pode usar um Toast/Alert se quiser
+    }
   };
 
   return (
@@ -65,7 +78,7 @@ export default function NewItem() {
           value={date}
           onChange={setDate}
           placeholder="Data da conta"
-          />
+        />
         <Button title="Salvar" onPress={handleSave} />
       </ModalComponent>
     </>

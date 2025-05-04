@@ -22,7 +22,7 @@ export const useLogin = () => {
       await signIn(email, password)
         .then((res: boolean) => {
           if (res === true) {
-            Alert.alert("Sucesso", "Login realizado com sucesso.");
+            // Alert.alert("Sucesso", "Login realizado com sucesso.");
             router.replace("/");
           } else {
             Alert.alert("Erro", "Usuário ou senha incorretos.");
