@@ -7,6 +7,7 @@ import { Button, TouchableOpacity } from "react-native";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useStorageContext } from "../context/StorangeContext";
 import DateInput from "./DateInput";
+import { deleteCard } from "../services/cardService";
 
 interface RequestCard {
   id: string;
@@ -42,6 +43,7 @@ export default function Card({ id, name, value, date }: RequestCard) {
 
   const handleDelete = async () => {
     await removeItem(id);
+    await deleteCard(id);
   };
 
   return (

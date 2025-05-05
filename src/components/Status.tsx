@@ -24,17 +24,17 @@ export default function StatusMoney({
     <Container>
       <Row>
         <InfoBox>
-          <Label theme={theme}>Salário:</Label>
+          <Label theme={theme}>Ganho:</Label>
           <Value color={theme.colors.success}>{formatCurrency(salario)}</Value>
         </InfoBox>
 
         <InfoBox>
-          <Label theme={theme}>Dívidas:</Label>
+          <Label theme={theme}>Gasto:</Label>
           <Value color={theme.colors.warning}>{formatCurrency(gasto)}</Value>
         </InfoBox>
 
         <InfoBox>
-          <Label theme={theme}>Saldo:</Label>
+          <Label theme={theme}>E me sobra:</Label>
           <Value color={theme.colors.text}>{formatCurrency(saldo)}</Value>
         </InfoBox>
       </Row>

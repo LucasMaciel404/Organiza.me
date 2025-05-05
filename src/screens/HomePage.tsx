@@ -5,11 +5,14 @@ import Line from "../components/Line";
 import Card from "../components/CardItem";
 import { useStorageContext } from "../context/StorangeContext";
 import { useSettingsContext } from "../context/SettingsContext";
+import { useEffect, useState } from "react";
+import AlertInEnpty from "../components/AlertInEnpty";
 
 export default function HomePage() {
   const { theme } = useThemeContext();
   const { data, removeItem } = useStorageContext();
   const { salary } = useSettingsContext();
+  let [dataIsEnpty , setDataIsEnpty] = useState(true);
 
   const salario = salary ?? 1000; // garante valor padrão de 1000 se estiver undefined
 
@@ -27,6 +30,14 @@ export default function HomePage() {
     removeItem(id);
   };
 
+  useEffect(() => {
+    if (data.length !== 0) {
+      setDataIsEnpty(false);
+    }else{
+      setDataIsEnpty(true);
+    }
+  }, [data]);
+
   return (
     <Container theme={theme}>
       <StatusMoney salario={salario} gasto={gasto} saldo={saldo} />
@@ -43,6 +54,7 @@ export default function HomePage() {
           />
         ))}
       </ListaComponentes>
+      <AlertInEnpty message="utilize esta area para dividas mensais" visible={dataIsEnpty} />
     </Container>
   );
 }
