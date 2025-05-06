@@ -18,9 +18,9 @@ export default function LoginScreen() {
 
   return (
     <Container theme={theme}>
-      <Logo source={require("./../assets/images/adaptive-icon.png")} />
 
       <Content>
+      <Logo source={require("./../assets/images/adaptive-icon.png")} />
         <Title theme={theme}>Simples</Title>
 
         <Input
@@ -49,10 +49,10 @@ export default function LoginScreen() {
 
         <LinksContainer>
           <StyledLink onPress={() => router.push("/forgot-password")}>
-            <LinkText>Esqueci minha senha</LinkText>
+            <LinkText theme={theme}>Esqueci minha senha</LinkText>
           </StyledLink>
           <StyledLink onPress={() => router.push("/register")}>
-            <LinkText> Cadastre-se</LinkText>
+            <LinkText theme={theme}> Cadastre-se</LinkText>
           </StyledLink>
         </LinksContainer>
       </Content>
@@ -69,6 +69,9 @@ const Content = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
+  max-height: 80%;
+  border: 1px solid #000;
+  padding: 20px;
 `;
 
 const Title = styled.Text`
@@ -81,9 +84,11 @@ const Title = styled.Text`
 const Logo = styled.Image`
   width: 90px;
   height: 90px;
-  position: absolute;
-  top: 80px;
+  
+  position: relative;
+  
   align-self: center;
+  
 `;
 
 const Input = styled.TextInput`
@@ -128,7 +133,7 @@ const StyledLink = styled(TouchableOpacity)`
 `;
 
 const LinkText = styled(Text)`
-  color: #3b82f6; /* Azul moderno (Tailwind blue-500) */
+  color: ${props => props.theme.colors.text }; /* Azul moderno (Tailwind blue-500) */
   font-size: 16px;
-  text-decoration: underline;
+  text-decoration: none;
 `;

@@ -80,4 +80,6 @@ const TextLink = styled.Text`
   color: #6200ea;
   margin-top: 16px;
   font-size: 16px;
+
+  text-decoration: none;
 `;

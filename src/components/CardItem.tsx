@@ -106,13 +106,11 @@ const Item = styled.TouchableOpacity`
   shadow-opacity: 0.1;
   shadow-radius: 1px;
 `;
-
 const Description = styled.Text<{ colorText: string }>`
   color: ${(props) => props.colorText};
   font-size: 20px;
   margin: 10px 0 20px 0;
 `;
-
 const Value = styled.Text<{ colorText: string }>`
   color: ${(props) => props.colorText};
   position: absolute;
@@ -120,14 +118,12 @@ const Value = styled.Text<{ colorText: string }>`
   left: 10px;
   font-size: 25px;
 `;
-
 const DateText = styled.Text<{ colorText: string }>`
   color: ${(props) => props.colorText};
   position: absolute;
   bottom: 10px;
   right: 10px;
 `;
-
 const IconsRow = styled.View`
   flex-direction: row;
   justify-content: flex-end;
