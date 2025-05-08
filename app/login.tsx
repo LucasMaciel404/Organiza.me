@@ -70,7 +70,7 @@ const Content = styled.View`
   justify-content: center;
   align-items: center;
   max-height: 80%;
-  border: 1px solid #000;
+  
   padding: 20px;
 `;
 

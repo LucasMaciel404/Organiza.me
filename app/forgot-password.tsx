@@ -18,9 +18,9 @@ export default function ForgotPasswordScreen() {
 
   return (
     <Container theme={theme}>
-      <Logo source={require("./../assets/images/adaptive-icon.png")} />
 
       <Content>
+      <Logo source={require("./../assets/images/adaptive-icon.png")} />
         <Title theme={theme}>Recuperar Senha</Title>
 
         <Input
@@ -59,6 +59,9 @@ const Content = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
+  max-height: 80%;
+  
+  padding: 20px;
 `;
 
 const Title = styled.Text`
@@ -98,8 +101,9 @@ const ButtonText = styled.Text`
 const Logo = styled.Image`
   width: 90px;
   height: 90px;
-  position: absolute;
-  top: 80px;
+  
+  position: relative;
+  
   align-self: center;
 `;
 

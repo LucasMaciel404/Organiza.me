@@ -6,14 +6,8 @@ import { useRegister } from "@/src/hooks/useRegister"; // ajuste o caminho se ne
 
 export default function RegisterScreen() {
   const { theme } = useThemeContext();
-  const {
-    email,
-    setEmail,
-    password,
-    setPassword,
-    loading,
-    handleRegister,
-  } = useRegister();
+  const { email, setEmail, password, setPassword, loading, handleRegister } =
+    useRegister();
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = async () => {
@@ -32,49 +26,58 @@ export default function RegisterScreen() {
 
   return (
     <Container theme={theme}>
-      <Logo source={require("./../assets/images/adaptive-icon.png")} />
-      <Title theme={theme}>Criar conta</Title>
+      <Content>
+        <Logo source={require("./../assets/images/adaptive-icon.png")} />
+        <Title theme={theme}>Criar conta</Title>
 
-      <Input
-        placeholder="E-mail"
-        value={email}
-        onChangeText={setEmail}
-        placeholderTextColor={theme.colors.text}
-        theme={theme}
-        autoCapitalize="none"
-      />
+        <Input
+          placeholder="E-mail"
+          value={email}
+          onChangeText={setEmail}
+          placeholderTextColor={theme.colors.text}
+          theme={theme}
+          autoCapitalize="none"
+        />
 
-      <Input
-        placeholder="Senha"
-        value={password}
-        onChangeText={setPassword}
-        placeholderTextColor={theme.colors.text}
-        secureTextEntry
-        theme={theme}
-      />
+        <Input
+          placeholder="Senha"
+          value={password}
+          onChangeText={setPassword}
+          placeholderTextColor={theme.colors.text}
+          secureTextEntry
+          theme={theme}
+        />
 
-      <Input
-        placeholder="Confirmar Senha"
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        placeholderTextColor={theme.colors.text}
-        secureTextEntry
-        theme={theme}
-      />
+        <Input
+          placeholder="Confirmar Senha"
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          placeholderTextColor={theme.colors.text}
+          secureTextEntry
+          theme={theme}
+        />
 
-      <LoginButton onPress={handleSubmit} disabled={loading} theme={theme}>
-        <ButtonText theme={theme}>
-          {loading ? "Cadastrando..." : "Cadastrar"}
-        </ButtonText>
-      </LoginButton>
+        <LoginButton onPress={handleSubmit} disabled={loading} theme={theme}>
+          <ButtonText theme={theme}>
+            {loading ? "Cadastrando..." : "Cadastrar"}
+          </ButtonText>
+        </LoginButton>
+      </Content>
     </Container>
   );
 }
 const Container = styled.View`
   flex: 1;
+  background-color: ${(props) => props.theme.colors.background};
+  padding: 20px;
+`;
+
+const Content = styled.View`
+  flex: 1;
   justify-content: center;
   align-items: center;
-  background-color: ${(props) => props.theme.colors.background};
+  max-height: 80%;
+
   padding: 20px;
 `;
 
@@ -115,7 +118,8 @@ const ButtonText = styled.Text`
 const Logo = styled.Image`
   width: 90px;
   height: 90px;
-  position: absolute;
-  top: 80px;
+
+  position: relative;
+
   align-self: center;
 `;
