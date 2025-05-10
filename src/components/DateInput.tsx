@@ -10,11 +10,15 @@ type DateInputProps = {
   placeholder?: string;
 };
 
-export default function DateInput({ value, onChange, placeholder }: DateInputProps) {
+export default function DateInput({
+  value,
+  onChange,
+  placeholder,
+}: DateInputProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(value);
   const { theme } = useThemeContext();
-  
+
   const handleConfirm = (date: Date) => {
     setIsVisible(false);
     setSelectedDate(date);
@@ -23,9 +27,11 @@ export default function DateInput({ value, onChange, placeholder }: DateInputPro
 
   return (
     <View>
-      <DateTouchable onPress={() => setIsVisible(true)} theme={theme} >
-        <DateText isPlaceholder={!selectedDate} theme={theme} >
-          {selectedDate ? selectedDate.toLocaleDateString() : placeholder || "Selecionar data"}
+      <DateTouchable onPress={() => setIsVisible(true)} theme={theme}>
+        <DateText isPlaceholder={!selectedDate} theme={theme}>
+          {selectedDate
+            ? selectedDate.toLocaleDateString("pt-BR")
+            : placeholder || "Selecionar data"}
         </DateText>
       </DateTouchable>
 
@@ -36,7 +42,6 @@ export default function DateInput({ value, onChange, placeholder }: DateInputPro
         onCancel={() => setIsVisible(false)}
         date={selectedDate || new Date()}
         display={Platform.OS === "ios" ? "inline" : "default"}
-        
       />
     </View>
   );

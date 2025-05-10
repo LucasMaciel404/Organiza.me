@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 import { useThemeContext } from "../context/ThemeContext";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ModalComponent } from "./Modal";
 import Input from "./Input";
 import { Button, TouchableOpacity } from "react-native";
@@ -14,7 +14,7 @@ interface RequestCard {
   name: string;
   value: number;
   date: string;
-  onDelete: () => void; // Adicione esta propriedade
+  onDelete: () => void;
 }
 
 export default function Card({ id, name, value, date }: RequestCard) {
@@ -24,18 +24,22 @@ export default function Card({ id, name, value, date }: RequestCard) {
   const [modalVisible, setModalVisible] = useState(false);
   const [editedName, setEditedName] = useState(name);
   const [editedValue, setEditedValue] = useState(String(value));
-  const [editedDate, setEditedDate] = useState<Date | undefined>(
-    new Date(date)
-  );
+  const [editedDate, setEditedDate] = useState<Date | undefined>(new Date(date));
 
   const handleSave = async () => {
     if (!editedName || !editedValue || !editedDate) return;
 
+    const parsedValue = parseFloat(editedValue.replace(",", "."));
+    if (isNaN(parsedValue)) {
+      console.error("Valor inválido");
+      return;
+    }
+
     await editItem(id, {
       id,
       name: editedName,
-      value: parseFloat(editedValue),
-      date: editedDate.toDateString(),
+      value: parsedValue,
+      date: editedDate.toISOString(), // formato ISO
     });
 
     setModalVisible(false);
@@ -73,10 +77,7 @@ export default function Card({ id, name, value, date }: RequestCard) {
         </DateText>
       </Item>
 
-      <ModalComponent
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-      >
+      <ModalComponent visible={modalVisible} onClose={() => setModalVisible(false)}>
         <Input placeholder="Nome" value={editedName} onChange={setEditedName} />
         <Input
           placeholder="Valor"
@@ -84,9 +85,7 @@ export default function Card({ id, name, value, date }: RequestCard) {
           onChange={setEditedValue}
           keyboardType="numeric"
         />
-
         <DateInput value={editedDate} onChange={setEditedDate} placeholder="" />
-
         <Button title="Salvar alterações" onPress={handleSave} />
       </ModalComponent>
     </Container>
@@ -106,11 +105,13 @@ const Item = styled.TouchableOpacity`
   shadow-opacity: 0.1;
   shadow-radius: 1px;
 `;
+
 const Description = styled.Text<{ colorText: string }>`
   color: ${(props) => props.colorText};
   font-size: 20px;
   margin: 10px 0 20px 0;
 `;
+
 const Value = styled.Text<{ colorText: string }>`
   color: ${(props) => props.colorText};
   position: absolute;
@@ -118,12 +119,14 @@ const Value = styled.Text<{ colorText: string }>`
   left: 10px;
   font-size: 25px;
 `;
+
 const DateText = styled.Text<{ colorText: string }>`
   color: ${(props) => props.colorText};
   position: absolute;
   bottom: 10px;
   right: 10px;
 `;
+
 const IconsRow = styled.View`
   flex-direction: row;
   justify-content: flex-end;

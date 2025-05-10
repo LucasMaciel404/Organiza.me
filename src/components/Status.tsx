@@ -34,7 +34,7 @@ export default function StatusMoney({
         </InfoBox>
 
         <InfoBox>
-          <Label theme={theme}>E me sobra:</Label>
+          <Label theme={theme}>Saldo livre:</Label>
           <Value color={theme.colors.text}>{formatCurrency(saldo)}</Value>
         </InfoBox>
       </Row>
