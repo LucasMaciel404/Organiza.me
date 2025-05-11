@@ -1,4 +1,5 @@
 import axios from "axios";
+import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 
 const API_URL = "http://10.0.2.2:3000/cards";
@@ -23,6 +24,8 @@ export const createCard = async (nome: string, data: string, valor: number) => {
     return response.data;
   } catch (error) {
     const err = error as any;
+    router.replace("/login");
+    alert(err.response?.data?.message || "Erro ao criar card: Realize login novamente");
     throw new Error(err.response?.data?.message || "Erro ao criar card");
   }
 };
@@ -35,6 +38,8 @@ export const getCards = async () => {
     return response.data;
   } catch (error) {
     const err = error as any;
+    router.replace("/login");
+    alert(err.response?.data?.message || "Erro ao buscar cards: Realize login novamente");
     throw new Error(err.response?.data?.message || "Erro ao buscar cards");
   }
 };
@@ -47,6 +52,8 @@ export const updateCard = async (id: string, updates: { nome?: string; data?: st
     return response.data;
   } catch (error) {
     const err = error as any;
+    router.replace("/login"); 
+    alert(err.response?.data?.message || "Erro ao atualizar card: Realize login novamente");
     throw new Error(err.response?.data?.message || "Erro ao atualizar card");
   }
 };
@@ -59,6 +66,8 @@ export const deleteCard = async (id: string) => {
     return response.data;
   } catch (error) {
     const err = error as any;
+    router.replace("/login");
+    alert(err.response?.data?.message || "Erro ao deletar card: Realize login novamente");
     throw new Error(err.response?.data?.message || "Erro ao deletar card");
   }
 };

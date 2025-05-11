@@ -42,7 +42,7 @@ export default function HomePage() {
     <Container theme={theme}>
       <StatusMoney salario={salario} gasto={gasto} saldo={saldo} />
       <Line />
-      <ListaComponentes>
+      <MyCards>
         {data.map((item) => (
           <Card
             key={item.id}
@@ -53,7 +53,7 @@ export default function HomePage() {
             onDelete={() => handleDelete(item.id)}
           />
         ))}
-      </ListaComponentes>
+      </MyCards>
       <AlertInEnpty message="utilize esta area para dividas mensais" visible={dataIsEnpty} />
     </Container>
   );
@@ -66,7 +66,7 @@ const Container = styled.ScrollView`
   padding: 10px;
 `;
 
-const ListaComponentes = styled.View`
+const MyCards = styled.View`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

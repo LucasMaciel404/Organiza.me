@@ -7,7 +7,7 @@ import { Button, TouchableOpacity } from "react-native";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useStorageContext } from "../context/StorangeContext";
 import DateInput from "./DateInput";
-import { deleteCard } from "../services/cardService";
+import { deleteCard, updateCard } from "../services/cardService";
 
 interface RequestCard {
   id: string;
@@ -24,7 +24,9 @@ export default function Card({ id, name, value, date }: RequestCard) {
   const [modalVisible, setModalVisible] = useState(false);
   const [editedName, setEditedName] = useState(name);
   const [editedValue, setEditedValue] = useState(String(value));
-  const [editedDate, setEditedDate] = useState<Date | undefined>(new Date(date));
+  const [editedDate, setEditedDate] = useState<Date | undefined>(
+    new Date(date)
+  );
 
   const handleSave = async () => {
     if (!editedName || !editedValue || !editedDate) return;
@@ -34,13 +36,8 @@ export default function Card({ id, name, value, date }: RequestCard) {
       console.error("Valor inválido");
       return;
     }
-
-    await editItem(id, {
-      id,
-      name: editedName,
-      value: parsedValue,
-      date: editedDate.toISOString(), // formato ISO
-    });
+    await updateCard(id, { nome: editedName, valor: parsedValue, data: editedDate.toISOString()});
+    await editItem(id, { id, name: editedName, value: parsedValue, date: editedDate.toISOString()});
 
     setModalVisible(false);
   };
@@ -77,7 +74,10 @@ export default function Card({ id, name, value, date }: RequestCard) {
         </DateText>
       </Item>
 
-      <ModalComponent visible={modalVisible} onClose={() => setModalVisible(false)}>
+      <ModalComponent
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      >
         <Input placeholder="Nome" value={editedName} onChange={setEditedName} />
         <Input
           placeholder="Valor"
