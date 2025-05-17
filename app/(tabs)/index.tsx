@@ -1,6 +1,6 @@
-import HomePage from "@/src/screens/HomePage";
+import HomePage from "./../../src/screens/HomePage";
 import Layout from "../laayout";
-import NewItem from "@/src/components/NewItem";
+import NewItem from "./../../src/components/NewItem";
 
 export default function Home() {
 

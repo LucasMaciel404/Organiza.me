@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components/native";
 import { Alert } from "react-native";
-import { useThemeContext } from "@/src/context/ThemeContext";
-import { useRegister } from "@/src/hooks/useRegister"; // ajuste o caminho se necessário
+import { useThemeContext } from "./../src/context/ThemeContext";
+import { useRegister } from "./../src/hooks/useRegister"; // ajuste o caminho se necessário
 
 export default function RegisterScreen() {
   const { theme } = useThemeContext();

@@ -1,5 +1,4 @@
-import { ThemeToggleButton } from "@/src/components/ToggleTheme";
-import { useThemeContext } from "@/src/context/ThemeContext";
+import { useThemeContext } from "./../src/context/ThemeContext";
 import { ReactNode } from "react";
 import styled from "styled-components/native";
 
