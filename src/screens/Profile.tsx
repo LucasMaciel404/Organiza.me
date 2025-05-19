@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components/native";
 import { useThemeContext } from "../context/ThemeContext";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useAuth } from "@/src/context/AuthContext";
+import { useAuth } from "./../../src/context/AuthContext";
 import { useRouter } from "expo-router";
 import OptionsModal from "../components/OptionsModal";
 

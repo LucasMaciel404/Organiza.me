@@ -1,11 +1,10 @@
-import { ThemeProvider } from "@/src/context/ThemeContext";
+import { ThemeProvider } from "./../src/context/ThemeContext";
 import { Stack, useRouter } from "expo-router";
 import { AuthProvider, useAuth } from "./../src/context/AuthContext";
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
-import { Text } from "react-native";
-import { StorageProvider } from "@/src/context/StorangeContext";
-import { SettingsProvider } from "@/src/context/SettingsContext";
+import { StorageProvider } from "./../src/context/StorangeContext";
+import { SettingsProvider } from "./../src/context/SettingsContext";
 
 export default function Layout() {
   return (
@@ -27,10 +26,17 @@ function RootLayout() {
   });
 
   useEffect(() => {
+    if (!fontsLoaded) return;
+
     if (!user) {
       router.replace("/login");
     }
-  }, [user]);
+    console.log("user", user);
+  }, [user, fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null; // ou <LoadingScreen />
+  }
 
   return (
     <SettingsProvider>

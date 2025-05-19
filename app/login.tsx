@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
-import { useThemeContext } from "@/src/context/ThemeContext";
+import { useThemeContext } from "./../src/context/ThemeContext";
 import { useLogin } from "./../src/hooks/useLogin";
 import { TouchableOpacity, Text } from "react-native";
 import { useRouter } from "expo-router";
