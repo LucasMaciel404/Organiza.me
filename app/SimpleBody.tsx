@@ -27,7 +27,7 @@ const Header = styled.View`
   background-color: ${(props) => props.theme.colors.background};
   padding: 20px;
   border-radius: 10px;
-  margin-bottom: 20px;
+  margin-top: 30px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -48,6 +48,5 @@ const Header = styled.View`
 const Title = styled.Text`
   color: ${(props) => props.theme.colors.text};
   font-size: 40px;
-
   font-family: "Caveat-Regular";
 `;

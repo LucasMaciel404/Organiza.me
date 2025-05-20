@@ -25,15 +25,6 @@ function RootLayout() {
     "Caveat-Regular": require("./../assets/fonts/Caveat-Regular.ttf"),
   });
 
-  useEffect(() => {
-    if (!fontsLoaded) return;
-
-    if (!user) {
-      router.replace("/login");
-    }
-    console.log("user", user);
-  }, [user, fontsLoaded]);
-
   if (!fontsLoaded) {
     return null; // ou <LoadingScreen />
   }

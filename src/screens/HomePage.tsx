@@ -6,7 +6,8 @@ import Card from "../components/CardItem";
 import { useSettingsContext } from "../context/SettingsContext";
 import AlertInEnpty from "../components/AlertInEnpty";
 import { useEffect, useState } from "react";
-import { getCards } from "./../services/cardService"; // Importa o serviço
+import { getCards } from "./../services/cardService";
+import { useStorageContext, ItemProps } from "../context/StorangeContext";
 
 interface CardItem {
   id: string;
@@ -18,29 +19,66 @@ interface CardItem {
 export default function HomePage() {
   const { theme } = useThemeContext();
   const { salary } = useSettingsContext();
+  const { data: storedCards } = useStorageContext();
+
   const [cards, setCards] = useState<CardItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const salario = salary ?? 1000;
 
-  const gasto = cards.reduce((total, item) => {
-    const valor = typeof item.valor === "number" ? item.valor : parseFloat(String(item.valor));
-    return total + (isNaN(valor) ? 0 : valor);
-  }, 0);
-
-  const saldo = salario - gasto;
+  const cleanAndFormatCards = (cards: any[]): CardItem[] => {
+    return cards
+      .filter(
+        (item) =>
+          item &&
+          typeof item.id !== "undefined" &&
+          typeof item.nome === "string" &&
+          item.valor !== undefined &&
+          typeof item.data === "string"
+      )
+      .map((item) => ({
+        id: String(item.id),
+        nome: item.nome,
+        valor: Number(item.valor) || 0,
+        data: item.data,
+      }));
+  };
 
   useEffect(() => {
     const fetchCards = async () => {
       try {
-        const result = await getCards();
-        setCards(result);
+        const apiCards = await getCards();
+        const formattedApiCards = Array.isArray(apiCards) ? cleanAndFormatCards(apiCards) : [];
+
+        // Unir cards da API e do StorageContext, evitando duplicados pelo id
+        const allCardsMap = new Map<string, CardItem>();
+
+        formattedApiCards.forEach((card) => allCardsMap.set(card.id, card));
+        storedCards.forEach((card) => allCardsMap.set(card.id, card));
+
+        const combinedCards = Array.from(allCardsMap.values());
+
+        setCards(combinedCards);
       } catch (error) {
-        setCards([]); // fallback se erro
+        console.error("Erro ao buscar cards:", error);
+        setCards(storedCards.length ? storedCards : []);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchCards();
-  }, []);
+  }, [storedCards]);
+
+  const gasto = cards.reduce((total, item) => {
+    return total + (isNaN(item.valor) ? 0 : item.valor);
+  }, 0);
+
+  const saldo = salario - gasto;
+
+  if (loading) {
+    return null; // Ou um componente de loading
+  }
 
   return (
     <Container theme={theme}>

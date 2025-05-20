@@ -3,9 +3,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface ItemProps {
   id: string;
-  name: string;
-  value: number;
-  date: string;
+  nome: string;
+  valor: number;
+  data: string;
 }
 
 interface StorageContextProps {

@@ -16,37 +16,37 @@ export default function NewItem() {
   const { theme } = useThemeContext();
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [name, setName] = useState("");
-  const [value, setValue] = useState("");
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [nome, setNome] = useState("");
+  const [valor, setValor] = useState("");
+  const [data, setData] = useState<Date | undefined>(new Date());
 
   const { addItem } = useStorageContext();
 
   const handleSave = async () => {
-    if (!name || !value || !date) return;
+    if (!nome || !valor || !data) return;
 
-    const parsedValue = parseFloat(value.replace(',', '.'));
-    const formattedDate = date.toISOString();
+    const parsedValor = parseFloat(valor.replace(',', '.'));
+    const formattedData = data.toISOString();
 
     try {
       // Salva na API
-      const savedCard = await createCard(name, formattedDate, parsedValue);
+      const savedCard = await createCard(nome, formattedData, parsedValor);
 
       // Salva no contexto/local storage
       const item = {
         id: savedCard.id || uuidv4(),
-        name,
-        value: parsedValue,
-        date: formattedDate,
+        nome,
+        valor: parsedValor,
+        data: formattedData,
       };
 
       addItem(item);
 
       // Limpa o formulário e fecha o modal
       setModalVisible(false);
-      setName("");
-      setValue("");
-      setDate(new Date());
+      setNome("");
+      setValor("");
+      setData(new Date());
     } catch (error) {
       console.error("Erro ao salvar item:", error);
       // Aqui você pode usar um Toast/Alert se quiser
@@ -67,16 +67,16 @@ export default function NewItem() {
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
       >
-        <Input placeholder="Nome da conta" value={name} onChange={setName} />
+        <Input placeholder="Nome da conta" value={nome} onChange={setNome} />
         <Input
           placeholder="Valor da conta"
-          value={value}
-          onChange={setValue}
+          value={valor}
+          onChange={setValor}
           keyboardType="numeric"
         />
         <DateInput
-          value={date}
-          onChange={setDate}
+          value={data}
+          onChange={setData}
           placeholder="Data da conta"
         />
         <Button title="Salvar" onPress={handleSave} />

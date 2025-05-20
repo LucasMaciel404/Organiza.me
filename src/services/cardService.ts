@@ -1,11 +1,14 @@
-import { router } from "expo-router";
-import * as SecureStore from "expo-secure-store";
 import axios from "axios";
+import * as SecureStore from "expo-secure-store";
 
-const api = axios.create({
-  baseURL: "http://192.168.0.7:3000/cards",
-  timeout: 3000, // 3s
-});
+const API_URL = "http://192.168.0.7:3000/cards";
+
+interface Card {
+  id?: string;
+  nome: string;
+  data: string;
+  valor: number;
+}
 
 const getAuthHeader = async () => {
   const userData = await SecureStore.getItemAsync("user_data");
@@ -19,57 +22,52 @@ const getAuthHeader = async () => {
   };
 };
 
-// Criar novo card
-export const createCard = async (nome: string, data: string, valor: number) => {
+export const createCard = async (
+  nome: string,
+  data: string,
+  valor: number
+): Promise<Card> => {
   try {
     const config = await getAuthHeader();
-    const response = await api.post("/", { nome, data, valor }, config);
+    const response = await axios.post(API_URL, { nome, data, valor }, config);
     return response.data;
   } catch (error) {
-    handleRequestError(error, "criar");
+    const err = error as any;
+    throw new Error(err.response?.data?.message || "Erro ao criar card");
   }
 };
 
-// Buscar todos os cards
-export const getCards = async () => {
+export const getCards = async (): Promise<Card[]> => {
   try {
     const config = await getAuthHeader();
-    const response = await api.get("/", config);
+    const response = await axios.get(API_URL, config);
     return response.data;
   } catch (error) {
-    handleRequestError(error, "buscar");
+    const err = error as any;
+    throw new Error(err.response?.data?.message || "Erro ao buscar cards");
   }
 };
 
-// Atualizar card
-export const updateCard = async (id: string, updates: { nome?: string; data?: string; valor?: number }) => {
+export const updateCard = async (
+  id: string,
+  updates: Partial<Card>
+): Promise<Card> => {
   try {
     const config = await getAuthHeader();
-    const response = await api.patch(`/${id}`, updates, config);
+    const response = await axios.patch(`${API_URL}/${id}`, updates, config);
     return response.data;
   } catch (error) {
-    handleRequestError(error, "atualizar");
+    const err = error as any;
+    throw new Error(err.response?.data?.message || "Erro ao atualizar card");
   }
 };
 
-// Deletar card
-export const deleteCard = async (id: string) => {
+export const deleteCard = async (id: string): Promise<void> => {
   try {
     const config = await getAuthHeader();
-    const response = await api.delete(`/${id}`, config);
-    return response.data;
+    await axios.delete(`${API_URL}/${id}`, config);
   } catch (error) {
-    handleRequestError(error, "deletar");
+    const err = error as any;
+    throw new Error(err.response?.data?.message || "Erro ao deletar card");
   }
-};
-
-// Função para tratar erro
-const handleRequestError = (error: any, acao: string) => {
-  if (error.code === "ECONNABORTED") {
-    alert(`Tempo limite excedido ao ${acao} card`);
-  } else {
-    alert(error.response?.data?.message || `Erro ao ${acao} card: Realize login novamente`);
-    router.replace("/login");
-  }
-  throw new Error(error.response?.data?.message || `Erro ao ${acao} card`);
 };
