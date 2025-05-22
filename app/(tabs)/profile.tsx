@@ -1,10 +1,10 @@
 import Layout from "../SimpleBody";
-import ProfileScreen from "../../src/screens/Profile";
+import Settings from "../../src/screens/Settings";
 
 export default function ProfilePage() {
   return (
     <Layout>
-      <ProfileScreen />
+      <Settings />
     </Layout>
   );
 }

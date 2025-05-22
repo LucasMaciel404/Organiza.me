@@ -8,6 +8,7 @@ import AlertInEnpty from "../components/AlertInEnpty";
 import { useEffect, useState } from "react";
 import { getCards } from "./../services/cardService";
 import { useStorageContext, ItemProps } from "../context/StorangeContext";
+import { useAuth } from "../context/AuthContext";
 
 interface CardItem {
   id: string;
@@ -20,8 +21,9 @@ export default function HomePage() {
   const { theme } = useThemeContext();
   const { salary } = useSettingsContext();
   const { data: storedCards } = useStorageContext();
+  const { user } = useAuth();
 
-  const [cards, setCards] = useState<CardItem[]>([]);
+  const [cards, setCards] = useState<Partial<CardItem[]>>([]);
   const [loading, setLoading] = useState(true);
 
   const salario = salary ?? 1000;
@@ -34,41 +36,51 @@ export default function HomePage() {
           typeof item.id !== "undefined" &&
           typeof item.nome === "string" &&
           item.valor !== undefined &&
-          typeof item.data === "string"
+          typeof item.data === "string" &&
+          typeof item.isFromApi === "boolean"
       )
       .map((item) => ({
         id: String(item.id),
         nome: item.nome,
         valor: Number(item.valor) || 0,
         data: item.data,
+        isFromApi: true,
       }));
   };
 
   useEffect(() => {
-    const fetchCards = async () => {
-      try {
-        const apiCards = await getCards();
-        const formattedApiCards = Array.isArray(apiCards) ? cleanAndFormatCards(apiCards) : [];
+  const fetchCards = async () => {
+    if (!user?.token) return;
 
-        // Unir cards da API e do StorageContext, evitando duplicados pelo id
-        const allCardsMap = new Map<string, CardItem>();
+    try {
+      const apiCards = await getCards();
+      const formattedApiCards = Array.isArray(apiCards)
+        ? cleanAndFormatCards(apiCards)
+        : [];
 
-        formattedApiCards.forEach((card) => allCardsMap.set(card.id, card));
-        storedCards.forEach((card) => allCardsMap.set(card.id, card));
+      const allCardsMap = new Map<string, CardItem>();
 
-        const combinedCards = Array.from(allCardsMap.values());
+      formattedApiCards.forEach((card) => allCardsMap.set(card.id, card));
+      storedCards.forEach((card) => allCardsMap.set(card.id, { ...card }));
 
-        setCards(combinedCards);
-      } catch (error) {
-        console.error("Erro ao buscar cards:", error);
-        setCards(storedCards.length ? storedCards : []);
-      } finally {
-        setLoading(false);
-      }
-    };
+      const combinedCards = Array.from(allCardsMap.values());
 
-    fetchCards();
-  }, [storedCards]);
+      setCards(combinedCards);
+    } catch (error) {
+      console.error("Erro ao buscar cards:", error);
+      setCards(
+        storedCards.length
+          ? storedCards.map((card) => ({ ...card, isFromApi: false }))
+          : []
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchCards();
+}, [storedCards, user?.token]); // ← escuta diretamente o token
+
 
   const gasto = cards.reduce((total, item) => {
     return total + (isNaN(item.valor) ? 0 : item.valor);

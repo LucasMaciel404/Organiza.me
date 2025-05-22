@@ -2,11 +2,11 @@ import { useState } from "react";
 import styled from "styled-components/native";
 import { useThemeContext } from "../context/ThemeContext";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useAuth } from "./../../src/context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { useRouter } from "expo-router";
 import OptionsModal from "../components/OptionsModal";
 
-export default function ProfileScreen() {
+export default function SettingsScreen() {
   const { theme } = useThemeContext();
   const { signOut } = useAuth();
   const router = useRouter();
@@ -19,7 +19,7 @@ export default function ProfileScreen() {
 
   return (
     <Container theme={theme}>
-      <Title theme={theme}>Meu Perfil</Title>
+      <Title theme={theme}>Configurações</Title>
 
       <OptionButton onPress={() => setModalVisible(true)} theme={theme}>
         <MaterialCommunityIcons

@@ -118,7 +118,7 @@ const StyledLink = styled(TouchableOpacity)`
 `;
 
 const LinkText = styled(Text)`
-  color: #3b82f6;
+  color: #cde0ff;
   font-size: 16px;
   text-decoration: underline;
 `;

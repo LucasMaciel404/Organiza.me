@@ -8,6 +8,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useStorageContext } from "../context/StorangeContext";
 import DateInput from "./DateInput";
 import { deleteCard, updateCard } from "../services/cardService";
+// import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 
 interface RequestCard {
   id: string;
@@ -36,7 +37,7 @@ export default function Card({ id, name, value, date }: RequestCard) {
       return;
     }
     await updateCard(id, { nome: editedName, valor: parsedValue, data: editedDate.toISOString()});
-    await editItem(id, { id, name: editedName, value: parsedValue, date: editedDate.toISOString()});
+    await editItem(id, { id, nome: editedName, valor: parsedValue, data: editedDate.toISOString()});
 
     setModalVisible(false);
   };
@@ -71,6 +72,7 @@ export default function Card({ id, name, value, date }: RequestCard) {
         <DateText colorText={theme.card.text}>
           {new Date(date).toLocaleDateString("pt-BR")}
         </DateText>
+        {/* <SimpleLineIcons name="screen-smartphone" size={24} color="black" /> */}
       </Item>
 
       <ModalComponent
